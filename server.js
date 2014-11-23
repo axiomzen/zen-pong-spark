@@ -6,7 +6,7 @@ core = new spark.Core({
       id: '53ff70066667574853402067'
     });
 io = require('socket.io');
-var url = "http://requestb.in/rbnvznrb";
+var url = "http://zen-pong-api.herokuapp.com/score";
 
 io = io.listen(9990);
 
@@ -30,7 +30,9 @@ function feelerPressed(data) {
   //   console.log(body);
   //   }
   // });
-  request.put(url, {form:{player:data.data}});
+  request.post(url, {json: {player:data.data}}, function(err,res){
+    console.log(err, res);
+  });
   console.log(data);
 };
 
