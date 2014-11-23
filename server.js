@@ -2,7 +2,7 @@ var request = require('request');
 spark = require('sparknode');
 core = new spark.Core(settings.sparkCore);
 io = require('socket.io');
-
+var url = "http://requestb.in/prmurbpr"
 
 core.on('scored', feelerPressed);
 core.on('ping', feelersPingReceived);
@@ -15,7 +15,7 @@ core.on('online', function() {
 });
 
 feelerPressed = function(data) {
-  request.put(ENDPOINT, {player:data.data})
+  request.put(url, {player:data.data})
 };
 
 feelersPingReceived = function() {
