@@ -6,7 +6,7 @@ core = new spark.Core({
       id: '53ff70066667574853402067'
     });
 io = require('socket.io');
-var url = "http://requestb.in/prmurbpr";
+var url = "http://requestb.in/rbnvznrb";
 
 io = io.listen(9990);
 
@@ -30,7 +30,7 @@ function feelerPressed(data) {
   //   console.log(body);
   //   }
   // });
-  request.put(url, data);
+  request.put(url, {form:{player:data.data}});
   console.log(data);
 };
 
