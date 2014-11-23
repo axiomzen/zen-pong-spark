@@ -12,6 +12,7 @@
   "dependencies": {
     "request": "2.48.x",
     "socket.io": "0.9.16",
+    "debounce": "^1.0.0",
     "sparknode": "^0.4.9"
   }
 }

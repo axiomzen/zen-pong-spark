@@ -1,8 +1,18 @@
 var request = require('request');
+var debounce = require('debounce');
 spark = require('sparknode');
-core = new spark.Core(settings.sparkCore);
+core = new spark.Core({
+      accessToken: '0a4512d533829e87423e23d79d0bb7298f6347b7',
+      id: '53ff70066667574853402067'
+    });
 io = require('socket.io');
-var url = "http://requestb.in/prmurbpr"
+var url = "http://requestb.in/prmurbpr";
+
+io = io.listen(9990);
+
+io.configure(function() {
+  io.set('log level', 2);
+});
 
 core.on('scored', feelerPressed);
 core.on('ping', feelersPingReceived);
@@ -14,22 +24,33 @@ core.on('online', function() {
   feelersPingReceived();
 });
 
-feelerPressed = function(data) {
-  request.put(url, {player:data.data})
+function feelerPressed(data) {
+  // request.put(url, function (error, response, body) {
+  //   if (!error && response.statusCode == 200) {
+  //   console.log(body);
+  //   }
+  // });
+  request.put(url, data);
+  console.log(data);
 };
 
-feelersPingReceived = function() {
+function feelersPingReceived() {
   io.sockets.emit('feelers.connect');
   debounceFeelers();
 };
 
-feelerStatus = function(data) {
+function feelerStatus(data) {
   var stats = {
     online: this.online
   };
   io.sockets.emit("stats", stats);
 };
 
-feelersOnline = function() {
+function feelersOnline() {
   io.sockets.emit('core.online');
 };
+
+var debounceFeelers = debounce(function() {
+  io.sockets.emit('feelers.disconnect');
+  debounceFeelers();
+}, 5000 + 250);
